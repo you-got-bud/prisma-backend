@@ -48,6 +48,7 @@ model Product {
 
 model Dispensary {
   id       Int @id @default(autoincrement())
+  email    String
   name     String
   address  String
   products Product[]
