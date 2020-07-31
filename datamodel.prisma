@@ -14,6 +14,14 @@ enum Role {
   ADMIN
 }
 
+enum OrderStatus {
+  SUBMITTED
+  PAID
+  PREPARED
+  FAILED
+}
+
+
 enum EffectType {
   FEELING
   HELPER
@@ -86,4 +94,5 @@ model Purchase {
   products   Product[] @relation(fields: [productIds], references: [id])
   customer   Customer  @relation(fields: [customerId], references: [id])
   price      Int
+  status     OrderStatus
 }
