@@ -1,0 +1,66 @@
+enum Currency {
+  USD
+  CAD
+  BTC
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Strain {
+  id          Int       @default(autoincrement()) @id
+  description String
+  flavor      String
+  products    Product[] @relation(fields: [id])
+  name        String
+  cbd         Int
+  thc         Int
+}
+
+model Customer {
+  id                Int      @default(autoincrement()) @id
+  verified          Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  role              Role     @default(USER)
+  posts             Post[]
+  profileId         Int      @relation(references: [id])
+  profile           Profile? @relation(fields: [id])
+}
+
+model Product {
+  id            Int          @default(autoincrement()) @id
+  image         String
+  price         Float
+  description   String
+  dispensaryIds Int[]
+  purchaseIds   Int[]
+  strain        Strain       @relation(references: [id])
+  dispensaries  Dispensary[] @relation(fields: [dispensaryIds], references: [id])
+  purchases     Purchase[]   @relation(fields: [purchaseIds], references: [id])
+}
+
+model Dispensary {
+  id       Int @id @default(autoincrement())
+  name     String
+  address  String
+  products Product[]
+}
+
+model Purchase {
+  id         Int @default(autoincrement()) @id
+  customerId Int       @relation(references: [id])
+  products   Product[] @relation()
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  price      Int
+}
+
+model Profile {
+  id         Int        @default(autoincrement()) @id
+  name       String
+  email      String
+  phone      String
+  customerId Int        @relation(references: [id])
+  purchases  Purchase[] @relation(fields: [customerId], references: [id])
+}
