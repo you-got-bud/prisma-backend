@@ -49,7 +49,7 @@ model Dispensary {
 }
 
 model Purchase {
-  id         Int @default(autoincrement()) @id
+  id         Int       @default(autoincrement()) @id
   customerId Int       @relation(references: [id])
   products   Product[] @relation()
   customer   Customer  @relation(fields: [customerId], references: [id])
