@@ -14,10 +14,26 @@ enum Role {
   ADMIN
 }
 
+enum EffectType {
+  FEELING
+  HELPER
+  SIDE_EFFECT
+}
+
+model Effect {
+  id         Int    @default(autoincrement()) @id
+  name       String
+  percentage Int
+  type       EffectType
+}
+
 model Strain {
   id          Int       @default(autoincrement()) @id
   description String
   flavor      String
+  effectId    Int       @relation(references: [id])
+  effect      Effect    @relation(field: [effectId], references: [id])
+  energyLevel Int
   productId   Int[]     @relation(references: [id])
   products    Product[] @relation(fields: [productId], references: [id])
   name        String
